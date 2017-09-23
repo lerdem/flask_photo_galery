@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+   <body>
+
+      <h2 style = "text-align: center;">Создание альбома</h2>
+
+      {% for message in form.title.errors %}
+         <div>{{ message }}</div>
+      {% endfor %}
+
+      {% for message in form.description.errors %}
+         <div>{{ message }}</div>
+      {% endfor %}
+
+      <form action = "http://localhost:5000/index/create-album" method = post>
+         <fieldset>
+            <legend>Данные для заполнения</legend>
+            {{ form.hidden_tag() }}
+
+            <div style = font-size:20px; font-weight:bold; margin-left:200px;>
+               {{ form.title.label }}<br>
+               {{ form.title }}
+               <br>
+
+
+               {{ form.description.label }}<br>
+               {{ form.description }}
+               <br>
+
+               {{ form.submit }}
+            </div>
+
+         </fieldset>
+      </form>
+
+   </body>
+</html>

@@ -4,34 +4,24 @@
 
       <h2 style = "text-align: center;">Создание альбома</h2>
 
-      {% for message in form.title.errors %}
-         <div>{{ message }}</div>
-      {% endfor %}
+         {% from "_formhelpers.html" import render_field %}
 
-      {% for message in form.description.errors %}
-         <div>{{ message }}</div>
-      {% endfor %}
+               <form action = {{ url_for('create_album') }} method=post>
+                   <fieldset>
 
-      <form action = "http://localhost:5000/index/create-album" method = post>
-         <fieldset>
-            <legend>Данные для заполнения</legend>
-            {{ form.hidden_tag() }}
+                       <legend>
+                           Данные для заполнения
+                       </legend>
+                       {{ form.hidden_tag() }}
 
-            <div style = font-size:20px; font-weight:bold; margin-left:200px;>
-               {{ form.title.label }}<br>
-               {{ form.title }}
-               <br>
+                     <dl>
+                       {{ render_field(form.title) }}
+                       {{ render_field(form.description) }}
+                       {{ render_field(form.submit) }}
+                     </dl>
 
-
-               {{ form.description.label }}<br>
-               {{ form.description }}
-               <br>
-
-               {{ form.submit }}
-            </div>
-
-         </fieldset>
-      </form>
+                   </fieldset>
+               </form>
 
    </body>
 </html>

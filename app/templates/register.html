@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+   <body>
+
+      <h2 style = "text-align: center;">Регистарация нового пользователя</h2>
+
+            {% from "_formhelpers.html" import render_field %}
+
+            <form action = {{ url_for('register') }} method=post>
+                <fieldset>
+                    <legend>
+                        Данные для заполнения
+                    </legend>
+                    {{ form.hidden_tag() }}
+                  <dl>
+                    {{ render_field(form.first_name) }}
+                    {{ render_field(form.last_name) }}
+                    {{ render_field(form.age) }}
+                    {{ render_field(form.email) }}
+                    {{ render_field(form.password) }}
+                    {{ render_field(form.confirm) }}
+                    {{ render_field(form.submit) }}
+                  </dl>
+                </fieldset>
+            </form>
+
+   </body>
+</html>

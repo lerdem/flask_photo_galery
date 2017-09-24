@@ -1,22 +1,38 @@
-from flask import render_template, request, flash
-from app import app
-from forms import Create_album
+from flask import render_template, request, redirect, url_for
+from app import app, db
+from forms import Create_album, Register_user
+from models import User, Album, Photo
 
 
-@app.route('/index')
+@app.route('/')
 def index():
     return 'Hello, this is photo galery'
 
 
-@app.route('/index/create-album', methods=['GET', 'POST'])
+@app.route('/create-album', methods=['GET', 'POST'])
 def create_album():
     form = Create_album()
+    if request.method == 'POST' and form.validate():
+        return 'Альбом создан'
+        # redirect(url_for('index'))
+        # разобрать как работает flash
+    return render_template('create_album.html', form=form)
 
-    if request.method == 'POST':
-        if form.validate() == False:
-            flash('Все поля что-то там....')
-            return render_template('create_album.html', form=form)
-        else:
-            return 'Данные успешно сохранены!'
-    elif request.method == 'GET':
-        return render_template('create_album.html', form=form)
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = Register_user()
+    if request.method == 'POST' and form.validate():
+        user = User(
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            age=form.age.data,
+            email=form.email.data,
+            password=form.password.data
+        )
+        db.session.add(user)
+        db.session.commit()
+        flash('Thanks for registering')
+        return 'Вы успешно зарегистрированы'  # redirect добавить
+    # update_time через PUT дописать
+    return render_template('register.html', form=form)

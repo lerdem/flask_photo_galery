@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Загрузка фото
+{% endblock %}
+
+{% block content_title %}
+    Загрузка фото в альбом
+{% endblock %}
+
+{% block content %}
+
+      <form action= "{{ url_for('upload_photo') }}" method=post enctype="multipart/form-data">
+          <p><input type=file name=file>
+          <input type=submit value=Upload>
+      </form>
+
+    {% from "_formhelpers.html" import render_field %}
+
+    <form action = "{{ url_for('upload_photo') }}" method=post>
+        <fieldset>
+            {{ form.hidden_tag() }}
+          <dl>
+
+            {{ render_field(form.description) }}
+            {{ render_field(form.from_album_id) }}
+            {{ render_field(form.submit) }}
+
+          </dl>
+        </fieldset>
+    </form>
+
+
+
+{% endblock %}

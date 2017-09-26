@@ -1,5 +1,7 @@
 from flask_wtf import Form
-from wtforms import StringField, validators, SubmitField, IntegerField, PasswordField
+from wtforms import StringField, validators, SubmitField, IntegerField, PasswordField, SelectField, FileField
+
+from config import My_config
 
 
 # https://www.tutorialspoint.com/flask/flask_wtf.htm
@@ -39,14 +41,59 @@ class Register_user(Form):
             validators.Email('Некоректный адрес')
         ]
     )
+    # дописать валидацию на уникальность почты
     password = PasswordField(
         'Пароль',
         [
-            validators.Length(min=8, max=25),
+            validators.Length(min=8, max=50),
             validators.DataRequired('Введите пароль, поле не заполненно'),
             validators.EqualTo('confirm', message='Пароли не совпадают')
         ]
 
     )
     confirm = PasswordField('Повторите пароль')
-    submit = SubmitField('Отправить')
+    submit = Create_album.submit
+
+
+class Login(Form):
+    email = Register_user.email
+    password = PasswordField('Пароль')
+    submit = Create_album.submit
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in My_config.ALLOWED_EXTENSIONS
+
+
+class Upload_photo(Form):
+    image = FileField('Загрузите изображение')
+    description = StringField(
+        'Описание изображения',
+        [
+            validators.DataRequired('Пожалуйса введите описание'),
+            validators.Length(max=128)
+        ]
+    )
+    from_album_id = SelectField('Добавить в альбом', choices=[(1, 'dfsdfds'), (2, 'wwwww')])
+    # Валидация по размеру фото
+    submit = Create_album.submit
+    # http://flask.pocoo.org/docs/0.12/patterns/fileuploads/
+    # https://flask - wtf.readthedocs.io/en/stable/form.html#validation
+
+"""
+class UploadForm(Form):
+    image        = FileField(u'Image File', [validators.regexp(u'^[^/\\]\.jpg$')])
+    description  = TextAreaField(u'Image Description')
+
+    def validate_image(form, field):
+        if field.data:
+            field.data = re.sub(r'[^a-z0-9_.-]', '_', field.data)
+
+def upload(request):
+    form = UploadForm(request.POST)
+    if form.image.data:
+        image_data = request.FILES[form.image.name].read()
+        open(os.path.join(UPLOAD_PATH, form.image.data), 'w').write(image_data)
+        # path like 'app/temp/upload' нужно следить за '/'
+"""

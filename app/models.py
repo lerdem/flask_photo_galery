@@ -17,7 +17,7 @@ class User(db.Model):
     last_name = db.Column(db.String(80))
     age = db.Column(db.Integer)
     email = db.Column(db.String(100), unique=True)    # уникальность почты
-    password = db.Column(db.String(30))
+    password = db.Column(db.String(80))
     created_time = db.Column(db.DateTime, default=datetime.now())
     update_time = db.Column(db.DateTime)
 
@@ -53,7 +53,7 @@ class Album(db.Model):
 class Photo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     from_album_id = db.Column(db.Integer, db.ForeignKey('album.id'))
-    name = db.Column(db.String(40))
+    description = db.Column(db.String(128))
     created = db.Column(db.DateTime, default=datetime.now())
     path_to_photo = db.Column(db.String(255))
 
@@ -79,14 +79,14 @@ if __name__ == '__main__':
     # db.create_all()
     # u = User(first_name='Test1', email='sometest1@hhh.com', last_name='Test_last1')
     # db.session.add(u)
-    # a = Album(from_user_id=1, title='my_photo')
-    # db.session.add(a)
-    # ph = Photo(from_album_id=1, path_to_photo='/home/lerdem/uploads/user_id/album_id/name.gpeg')
-    # db.session.add(ph)
-    # db.session.add_all([])
+    # # a = Album(from_user_id=1, title='my_photo')
+    # # db.session.add(a)
+    # # ph = Photo(from_album_id=1, path_to_photo='/home/lerdem/uploads/user_id/album_id/name.gpeg')
+    # # db.session.add(ph)
+    # # db.session.add_all([])
     # db.session.commit()
 
     a = [User.query.all(), Album.query.all(), Photo.query.all()]
 
-    print(a)
+    print(a[0][1].password)
 

@@ -105,3 +105,6 @@ ENV/
 
 # config File
 app/config.py
+
+# temp dirs
+app/temp/

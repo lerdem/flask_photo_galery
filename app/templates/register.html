@@ -1,28 +1,37 @@
-<!doctype html>
-<html>
-   <body>
+{% extends 'base.html' %}
 
-      <h2 style = "text-align: center;">Регистарация нового пользователя</h2>
+{% block title %}
 
-            {% from "_formhelpers.html" import render_field %}
+    Регистарация нового пользователя
 
-            <form action = {{ url_for('register') }} method=post>
-                <fieldset>
-                    <legend>
-                        Данные для заполнения
-                    </legend>
-                    {{ form.hidden_tag() }}
-                  <dl>
-                    {{ render_field(form.first_name) }}
-                    {{ render_field(form.last_name) }}
-                    {{ render_field(form.age) }}
-                    {{ render_field(form.email) }}
-                    {{ render_field(form.password) }}
-                    {{ render_field(form.confirm) }}
-                    {{ render_field(form.submit) }}
-                  </dl>
-                </fieldset>
-            </form>
+{% endblock %}
 
-   </body>
-</html>
+{% block content_title %}
+
+
+
+{% endblock %}
+
+{% block content %}
+
+        {% from "_formhelpers.html" import render_field %}
+
+    <form action = {{ url_for('register') }} method=post>
+        <fieldset>
+            <legend>
+                Данные для заполнения
+            </legend>
+            {{ form.hidden_tag() }}
+          <dl>
+            {{ render_field(form.first_name) }}
+            {{ render_field(form.last_name) }}
+            {{ render_field(form.age) }}
+            {{ render_field(form.email) }}
+            {{ render_field(form.password) }}
+            {{ render_field(form.confirm) }}
+            {{ render_field(form.submit) }}
+          </dl>
+        </fieldset>
+    </form>
+
+{% endblock %}

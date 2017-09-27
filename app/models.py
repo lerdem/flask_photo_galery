@@ -1,5 +1,6 @@
 from app import db
 from datetime import datetime
+from flask_login import UserMixin
 
 
 """
@@ -11,7 +12,7 @@ connection = engine.connect()
 """
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(50))
     last_name = db.Column(db.String(80))
@@ -86,7 +87,7 @@ if __name__ == '__main__':
     # # db.session.add_all([])
     # db.session.commit()
 
-    a = [User.query.all(), Album.query.all(), Photo.query.all()]
+    # a = [User.query.all(), Album.query.all(), Photo.query.all()]
 
-    print(a[0][1].password)
+    print(User.query.get(100))
 

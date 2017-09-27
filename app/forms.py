@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import StringField, validators, SubmitField, IntegerField, PasswordField, SelectField, FileField
+from wtforms import StringField, validators, SubmitField, IntegerField, PasswordField, SelectField, FileField, BooleanField
 
 from config import My_config
 
@@ -58,6 +58,7 @@ class Register_user(Form):
 class Login(Form):
     email = Register_user.email
     password = PasswordField('Пароль')
+    remember = BooleanField('remember me')
     submit = Create_album.submit
 
 

@@ -6,7 +6,8 @@ import os
 from app import app, db
 from forms import Create_album, Register_user, Upload_photo, Login
 from models import User, Album, Photo
-from config import My_config, Configuration
+from config import Configuration
+from log import logger
 
 
 @app.route('/')
@@ -54,49 +55,25 @@ def login():
     return render_template('login.html', form=form)
 
 
-# это не работает!!!
 @app.route('/upload-photo', methods=['GET', 'POST'])
 def upload_photo():
     form = Upload_photo()
     if request.method == 'POST':
-        print('-' * 80)
         image = request.files['file']
-        image2 = 'uuuu'
 
-        print(type(image), type(image2))
-        print(image, image2)
-        print('=' * 80)
+        logger.debug(type(image))
+
         image_file_name = secure_filename(image.filename)
         path = os.path.join(Configuration.UPLOAD_FOLDER, image_file_name)
-        print(path)
-        image.save(path)
-        return 'OK'
 
-    # if request.method == 'POST':
-    #     image = request.files['file']  # form.image.data
-    #     image_file_name = secure_filename(image)
-    #     image.save(
-    #         os.path.join(
-    #             My_config.BASE_DIR,
-    #             My_config.UPLOAD_FOLDER,
-    #             image_file_name
-    #         )
-    #     )
-    #
-    #
-    #     return image.filename
-    #
-    #     #     'Фото загружено: <img src="{}">'.format(os.path.join(
-    #     #         My_config.BASE_DIR,
-    #     #         My_config.UPLOAD_FOLDER,
-    #     #         image_file_name
-    #     #     )
-    #     # )
+        logger.debug(path)
+
+        image.save(path)
+
+        logger.debug(image.save(path))
+
+        return 'OK download file'
     return render_template('upload_photo.html', form=form)
 
 if __name__ == '__main__':
-    path = os.path.join(
-        My_config.BASE_DIR,
-        My_config.UPLOAD_FOLDER
-    )
-    print(path)
+    logger.info('test2222')

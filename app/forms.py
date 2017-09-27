@@ -61,6 +61,7 @@ class Login(Form):
     submit = Create_album.submit
 
 
+# пока не используестся
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in My_config.ALLOWED_EXTENSIONS

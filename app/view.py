@@ -52,6 +52,7 @@ def login():
         if user:
             if check_password_hash(user.password, form.password.data):
                 return '<h1> OK </h1>'
+        return '<h1>ERROR LOGGIN</h1>'
     return render_template('login.html', form=form)
 
 
@@ -60,18 +61,9 @@ def upload_photo():
     form = Upload_photo()
     if request.method == 'POST':
         image = request.files['file']
-
-        logger.debug(type(image))
-
         image_file_name = secure_filename(image.filename)
         path = os.path.join(Configuration.UPLOAD_FOLDER, image_file_name)
-
-        logger.debug(path)
-
         image.save(path)
-
-        logger.debug(image.save(path))
-
         return 'OK download file'
     return render_template('upload_photo.html', form=form)
 

@@ -12,11 +12,23 @@ from config import Configuration
 login_manager.login_view = 'login'
 # https://flask-login.readthedocs.io/en/latest/#login-example
 
+def chek_unique_email(email):
+    # class user and None(False)
+    _email_in_base = User.query.filter(User.email == email).first()
+    print(_email_in_base, email)
+    if bool(_email_in_base):
+        return False
+    else:
+        return True
+    # Через Flash добавить сообщение
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
 @app.route('/')
+@login_required
 def index():
     return render_template('index.html')
 
@@ -35,7 +47,7 @@ def create_album():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = Register_user()
-    if request.method == 'POST' and form.validate():
+    if request.method == 'POST' and form.validate() and chek_unique_email(form.email.data):
         hash_password = generate_password_hash(form.password.data, method='sha256')
         user = User(
             first_name=form.first_name.data,
@@ -46,7 +58,7 @@ def register():
         )
         db.session.add(user)
         db.session.commit()
-        return 'Вы успешно зарегистрированы'  # redirect добавить
+        return redirect(url_for('login'))
     # update_time через PUT дописать
     return render_template('register.html', form=form)
 
@@ -59,7 +71,7 @@ def login():
         if user:
             if check_password_hash(user.password, form.password.data):
                 login_user(user, remember=form.remember.data)   # хрень непонятная
-                return redirect(url_for('create_album'))
+                return redirect(url_for('index'))
         return '<h1>ERROR LOGGIN</h1>'
     return render_template('login.html', form=form)
 

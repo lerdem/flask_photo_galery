@@ -1,6 +1,7 @@
 from app import db
 from datetime import datetime
 from flask_login import UserMixin
+from uuid import uuid4
 
 
 """
@@ -19,6 +20,7 @@ class User(UserMixin, db.Model):
     age = db.Column(db.Integer)
     email = db.Column(db.String(100), unique=True)    # уникальность почты
     password = db.Column(db.String(80))
+    generate_url = db.Column(db.String(50), default=str(uuid4()))
     created_time = db.Column(db.DateTime, default=datetime.now())
     update_time = db.Column(db.DateTime)
 
@@ -39,7 +41,6 @@ class Album(db.Model):
     created = db.Column(db.DateTime, default=datetime.now())
     title = db.Column(db.String(100))
     description = db.Column(db.String(255))
-
 
     def __init__(self, *args, **kwargs):
         super(Album, self).__init__(*args, **kwargs)
@@ -89,5 +90,6 @@ if __name__ == '__main__':
 
     # a = [User.query.all(), Album.query.all(), Photo.query.all()]
 
-    print(User.query.get(100))
+    print(User.query.all())
+    print(type(User.query.filter(User.email == '4444r@gmail.com').first()))
 

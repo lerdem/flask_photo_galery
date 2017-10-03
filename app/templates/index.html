@@ -9,5 +9,9 @@
 {% endblock %}
 
 {% block content %}
-    Зденсь будут фото зареганого юзера, но это не точно.
+
+    {% if current_user.is_authenticated %}
+         Привет {{ current_user.first_name }}!
+    {% endif %}
+
 {% endblock %}
